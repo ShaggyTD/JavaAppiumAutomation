@@ -38,6 +38,23 @@ public class FirstTest {
     {
         driver.quit();
     }
+
+
+    @Test
+    public void Ex2()
+    {
+        waitForElementAndClick(By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "cannot find Search Wikipedia input",
+                5);
+        WebElement search_input =  waitForElementPresent(By.id("org.wikipedia:id/search_src_text"),
+                "Cannot find search input",
+                5);
+        String text_in_search_input = search_input.getAttribute("text");
+        Assert.assertEquals("We see unexpected text!","Search…", text_in_search_input);
+    }
+
+
+
     @Test
     public void firstTest()
     {
