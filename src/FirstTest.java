@@ -55,6 +55,36 @@ public class FirstTest {
 
 
     @Test
+    public void Ex3()
+    {
+        waitForElementAndClick(By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input",
+                5);
+
+        waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search…')]"),
+                "Test",
+                "Cannot find search input",
+                5);
+        int countOfElementsSearchResult =  countOfElements(By.id("org.wikipedia:id/page_list_item_container"),
+                "Cannot find result of search",
+                5);
+
+        boolean isCountMoreThanOne = false;
+        if(countOfElementsSearchResult >= 2)
+        {
+            isCountMoreThanOne = true;
+        }
+        Assert.assertEquals("Result less than 2", true, isCountMoreThanOne);
+
+        waitForElementAndClick(By.id("org.wikipedia:id/search_close_btn"),
+                "Cannot find X to cancel search",
+                5);
+        waitForElementNotPresent(By.id("org.wikipedia:id/page_list_item_container"),
+                "Results present!",
+                5);
+    }
+
+    @Test
     public void firstTest()
     {
         waitForElementAndClick(By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
@@ -122,7 +152,12 @@ public class FirstTest {
         return wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
+    private Integer countOfElements(By by, String error_message, long timeoutInSeconds){
 
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "\n");
+       return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by)).size();
+    }
 
     private WebElement waitForElementPresent(By by, String error_message){
 
